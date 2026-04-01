@@ -3,115 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ETRAAM Luxury - Order Now</title>
+    <title>ETRAAM | Maison de Luxe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     <style>
-        /* 1. Announcement Bar का डिज़ाइन */
-        .promo-bar {
-            background: #1a1a1a; /* गहरा काला रंग */
-            color: #d4af37; /* गोल्डन लिखावट */
-            overflow: hidden; /* पट्टी के बाहर कुछ न दिखे */
-            white-space: nowrap; /* टेक्स्ट एक ही लाइन में रहे */
-            padding: 8px 0;
-            font-size: 13px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            position: sticky; /* स्क्रीन के टॉप पर चिपका रहे */
-            top: 0;
-            z-index: 2001;
+        :root {
+            --gold: #d4af37;
+            --dark-bg: #0a0a0a;
+            --card-bg: #161616;
+            --text-gray: #a0a0a0;
         }
 
-        /* 2. चलने वाला एनीमेशन (Motion) */
-        .promo-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 15s linear infinite; /* 15 सेकंड में एक चक्कर */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--dark-bg); 
+            color: white; 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
         }
 
-        @keyframes marquee {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-100%, 0); }
+        /* --- LUXURY NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 2000;
+            padding: 30px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            backdrop-filter: blur(5px);
+        }
+        .logo { 
+            font-family: 'Cormorant Garamond', serif; 
+            font-size: 38px; letter-spacing: 10px; font-weight: 600; 
+            color: var(--gold); text-transform: uppercase;
+        }
+        .bag-icon { 
+            cursor: pointer; border: 1px solid var(--gold); 
+            padding: 10px 20px; font-size: 11px; letter-spacing: 2px;
+            transition: 0.4s;
+        }
+        .bag-icon:hover { background: var(--gold); color: black; }
+
+        /* --- CINEMATIC HERO --- */
+        .hero {
+            height: 90vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1583523582452-245813635b3d?auto=format&fit=crop&q=80&w=1600') center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        .hero h1 { 
+            font-family: 'Cormorant Garamond', serif; font-size: 100px; 
+            font-style: italic; font-weight: 400; margin-bottom: 10px;
+            animation: fadeInUp 1.5s ease;
+        }
+        .hero p { letter-spacing: 5px; text-transform: uppercase; font-weight: 100; color: var(--gold); }
+
+        /* --- CATEGORY SELECTOR --- */
+        .categories {
+            display: flex; justify-content: center; gap: 40px; padding: 80px 20px 40px;
+        }
+        .cat-link {
+            color: var(--text-gray); text-decoration: none; font-size: 12px;
+            letter-spacing: 3px; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; position: relative;
+        }
+        .cat-link:hover, .cat-link.active { color: var(--gold); }
+        .cat-link.active::after {
+            content: ''; position: absolute; bottom: -10px; left: 0;
+            width: 100%; height: 1px; background: var(--gold);
         }
 
-        /* बाकी पुराना डिज़ाइन */
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #faf9f6; padding-bottom: 120px; }
-        .header { height: 300px; background: url('https://i.imgur.com/8QO9yR7.jpeg') no-repeat center center; background-size: cover; display: flex; align-items: flex-end; }
-        .overlay { width: 100%; padding: 30px 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; }
-        .overlay h1 { margin: 0; letter-spacing: 5px; font-size: 26px; border-bottom: 2px solid #d4af37; display: inline-block; }
-        .container { padding: 20px; }
-        .product-card { background: white; border-radius: 12px; padding: 18px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 2px solid transparent; cursor: pointer; transition: 0.3s; }
-        .product-card.selected { border: 2px solid #d4af37; background-color: #fffef0; }
-        .price { color: #27ae60; font-weight: bold; font-size: 18px; }
-        .footer { position: fixed; bottom: 0; width: 100%; background: white; display: flex; gap: 10px; padding: 15px; box-sizing: border-box; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 1000; }
-        .btn { flex: 1; padding: 16px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; }
-        .btn-call { background: #f1f1f1; color: #4e342e; border: 1px solid #4e342e; }
-        .btn-wa { background: #25D366; color: white; }
+        /* --- LUXURY PRODUCT GRID --- */
+        .container { 
+            max-width: 1400px; margin: 0 auto; padding: 40px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 50px;
+        }
+        .product-card {
+            background: var(--card-bg); position: relative; overflow: hidden;
+            border: 1px solid #222; transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
+        
+        .img-container { width: 100%; height: 450px; overflow: hidden; }
+        .img-container img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: 1s; filter: grayscale(30%);
+        }
+        .product-card:hover img { transform: scale(1.1); filter: grayscale(0%); }
+
+        .product-info { padding: 30px; text-align: center; }
+        .product-info h3 { 
+            font-family: 'Cormorant Garamond', serif; font-size: 28px; 
+            letter-spacing: 2px; margin-bottom: 10px; 
+        }
+        .product-info .price { color: var(--gold); font-size: 20px; font-weight: 300; margin-bottom: 20px; }
+        
+        .add-to-bag {
+            width: 100%; padding: 15px; background: transparent; 
+            border: 1px solid #333; color: white; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 3px; font-size: 10px;
+            transition: 0.4s;
+        }
+        .add-to-bag:hover { background: white; color: black; border-color: white; }
+
+        /* --- SIDEBAR CART --- */
+        .cart-panel {
+            position: fixed; right: -100%; top: 0; width: 450px; height: 100%;
+            background: #0f0f0f; z-index: 3000; transition: 0.6s ease;
+            padding: 60px 40px; border-left: 1px solid #222;
+        }
+        .cart-panel.active { right: 0; }
+        .close-btn { font-size: 30px; cursor: pointer; color: var(--gold); float: right; }
+        .cart-content { margin-top: 60px; height: 70%; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #222; padding-bottom: 15px; }
+
+        .checkout-wa {
+            width: 100%; padding: 20px; background: var(--gold); color: black;
+            border: none; font-weight: 700; letter-spacing: 2px; cursor: pointer; margin-top: 20px;
+        }
+
+        /* --- PREMIUM FOOTER --- */
+        footer { padding: 100px 60px 40px; background: #050505; border-top: 1px solid #111; }
+        .footer-main { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 60px; margin-bottom: 80px; }
+        .f-title { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--gold); margin-bottom: 20px; }
+        .f-text { color: var(--text-gray); font-size: 13px; line-height: 2; letter-spacing: 1px; }
+
+        .curated { text-align: center; border-top: 1px solid #111; padding-top: 40px; }
+        .curated-text { font-size: 10px; letter-spacing: 6px; text-transform: uppercase; color: #444; }
+        .curated-text span { color: var(--gold); font-weight: 600; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 28px; }
+            .hero h1 { font-size: 60px; }
+            .cart-panel { width: 100%; }
+            nav { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="promo-bar">
-    <div class="promo-text">
-        ✨ RAMADAN SPECIAL: BUY 1 GET 1 FREE ON ALL ATTARS! 🌙 | FREE DELIVERY ON ORDERS ABOVE ₹2000 | LIMITED TIME OFFER! ✨
-    </div>
-</div>
+    <nav>
+        <div class="logo">ETRAAM</div>
+        <div class="bag-icon" onclick="toggleCart()">BAG (<span id="cart-count">0</span>)</div>
+    </nav>
 
-<div class="header">
-    <div class="overlay">
-        <h1>ETRAAM</h1>
-        <p>Curated by Aman Sharma | Naveen Market</p>
-    </div>
-</div>
+    <section class="hero">
+        <p>Eaux de Parfum</p>
+        <h1>The Gold Collection</h1>
+    </section>
 
-<div class="container">
-    <h2 style="color: #4e342e; font-size: 18px; margin-bottom: 20px;">Choose your Fragrance:</h2>
-    
-    <div class="product-card" onclick="toggleSelect(this, 'Mughal Oud', 2000)">
-        <div class="info"><h3>Mughal Oud</h3><p>Royal Saffron & Agarwood</p></div>
-        <div class="price">₹2,000</div>
+    <div class="categories">
+        <div class="cat-link active" onclick="updateView('all', event)">All Essence</div>
+        <div class="cat-link" onclick="updateView('mens', event)">For Him</div>
+        <div class="cat-link" onclick="updateView('womens', event)">For Her</div>
+        <div class="cat-link" onclick="updateView('unisex', event)">Unisex</div>
+        <div class="cat-link" onclick="updateView('luxury', event)">Privé</div>
     </div>
 
-    <div class="product-card" onclick="toggleSelect(this, 'Kannauj Gulab', 1000)">
-        <div class="info"><h3>Kannauj Gulab</h3><p>Natural Rose Extract</p></div>
-        <div class="price">₹1,000</div>
+    <div class="container" id="grid"></div>
+
+    <div class="cart-panel" id="cart">
+        <span class="close-btn" onclick="toggleCart()">×</span>
+        <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 32px; letter-spacing: 4px;">Shopping Bag</h2>
+        <div class="cart-content" id="cart-items"></div>
+        <div style="display: flex; justify-content: space-between; margin-top: 20px; font-weight: 600; border-top: 1px solid #333; padding-top: 20px;">
+            <span>ESTIMATED TOTAL</span>
+            <span id="total-price" style="color: var(--gold);">₹0</span>
+        </div>
+        <button class="checkout-wa" onclick="checkoutWA()">ORDER VIA WHATSAPP</button>
     </div>
 
-    <div class="product-card" onclick="toggleSelect(this, 'Drape Special', 500)">
-        <div class="info"><h3>Drape Special</h3><p>Amber & Velvet Musk</p></div>
-        <div class="price">₹500</div>
-    </div>
-</div>
-
-<div class="footer">
-    <a href="tel:7054157666" class="btn btn-call">CALL SHOP</a>
-    <button class="btn btn-wa" onclick="sendWhatsApp()">ORDER ON WHATSAPP (<span id="count">0</span>)</button>
-</div>
+    <footer>
+        <div class="footer-main">
+            <div class="f-col">
+                <div class="f-title">THE HOUSE</div>
+                <div class="f-text">ETRAAM represents the pinnacle of fragrance craftsmanship. Each bottle is curated with rare ingredients from across the globe.</div>
+            </div>
+            <div class="f-col">
+                <div class="f-title">BOUTIQUE</div>
+                <div class="f-text">Shop 42, Naveen Market<br>Kanpur, Uttar Pradesh<br>T: +91 7054157666</div>
+            </div>
+            <div class="f-col">
+                <div class="f-title">SERVICES</div>
+                <div class="f-text">Personal Fragrance Consultation<br>Luxury Gift Wrapping<br>Corporate Gifting</div>
+            </div>
+        </div>
+        <div class="curated">
+            <div class="curated-text">Directly Curated by <span>Swastik Sharma</span></div>
+        </div>
+    </footer>
 
 <script>
+    const inventory = [
+        { name: "Etraam Men", cat: "mens", price: 799, img: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600" },
+        { name: "White Oud", cat: "mens", price: 999, img: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=600" },
+        { name: "Classical", cat: "mens", price: 850, img: "https://images.unsplash.com/photo-1585120040315-2241b774ad0f?w=600" },
+        { name: "Etraam Women", cat: "womens", price: 799, img: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=600" },
+        { name: "Noor-e-Ishq", cat: "womens", price: 950, img: "https://images.unsplash.com/photo-1512781577229-c840dc339843?w=600" },
+        { name: "Feminism", cat: "womens", price: 899, img: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=600" },
+        { name: "Mehfooz-e-Ishq", cat: "unisex", price: 999, img: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=600" },
+        { name: "Etraam Adab", cat: "unisex", price: 850, img: "https://images.unsplash.com/photo-1616948055599-82090c74f115?w=600" },
+        { name: "Darbaab Privé", cat: "luxury", price: 1100, img: "https://images.unsplash.com/photo-1615485240388-14819783719e?w=600" },
+        { name: "Etraam Ishq", cat: "luxury", price: 1050, img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=600" }
+    ];
+
     let cart = [];
-    let total = 0;
+    let grandTotal = 0;
 
-    function toggleSelect(element, name, price) {
-        element.classList.toggle('selected');
-        const index = cart.findIndex(item => item.name === name);
-        if (index > -1) {
-            cart.splice(index, 1);
-            total -= price;
-        } else {
-            cart.push({name, price});
-            total += price;
-        }
-        document.getElementById('count').innerText = cart.length;
+    function render(f = 'all') {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        const filtered = f === 'all' ? inventory : inventory.filter(i => i.cat === f);
+        
+        filtered.forEach(item => {
+            grid.innerHTML += `
+                <div class="product-card">
+                    <div class="img-container"><img src="${item.img}"></div>
+                    <div class="product-info">
+                        <h3>${item.name}</h3>
+                        <div class="price">₹${item.price}</div>
+                        <button class="add-to-bag" onclick="add('${item.name}', ${item.price})">Add to Bag</button>
+                    </div>
+                </div>`;
+        });
     }
 
-    function sendWhatsApp() {
-        if(cart.length === 0) { alert("Please select a perfume first!"); return; }
-        let message = "Hello Swastik! I want to order from ETRAAM:%0A%0A";
-        cart.forEach((item, index) => { message += `${index + 1}. ${item.name} - ₹${item.price}%0A`; });
-        message += `%0A*Total Amount: ₹${total}*%0A%0APlease confirm my order.`;
-        const waLink = `https://wa.me/917054157666?text=${message}`;
-        window.open(waLink, '_blank');
+    function updateView(c, e) {
+        document.querySelectorAll('.cat-link').forEach(l => l.classList.remove('active'));
+        e.target.classList.add('active');
+        render(c);
     }
+
+    function toggleCart() { document.getElementById('cart').classList.toggle('active'); }
+
+    function add(n, p) {
+        cart.push({n, p});
+        grandTotal += p;
+        document.getElementById('cart-count').innerText = cart.length;
+        document.getElementById('total-price').innerText = "₹" + grandTotal;
+        
+        const list = document.getElementById('cart-items');
+        list.innerHTML = cart.map(i => `<div class="cart-item"><span>${i.n}</span><span>₹${i.p}</span></div>`).join('');
+        
+        if(!document.getElementById('cart').classList.contains('active')) toggleCart();
+    }
+
+    function checkoutWA() {
+        if(!cart.length) return;
+        let t = `*ETRAAM MAISON DE LUXE*%0A%0AItems Ordered:%0A${cart.map(i=>'- '+i.n).join('%0A')}%0A%0A*Total: ₹${grandTotal}*%0A%0ACurated by Swastik Sharma.`;
+        window.open(`https://wa.me/917054157666?text=${t}`, '_blank');
+    }
+
+    render();
 </script>
-
 </body>
 </html>
+         
+      
+
+      
